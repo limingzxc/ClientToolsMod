@@ -1,8 +1,10 @@
 package net.fabricmc.clienttools.mixin;
 
-import net.fabricmc.clienttools.AutoClick;
+import net.fabricmc.clienttools.api.AutoClick;
+import net.fabricmc.clienttools.lib.KeyBindingRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
+import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.spongepowered.asm.mixin.Final;
@@ -16,71 +18,107 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Minecraft.class)
 public abstract class MinecraftMixin {
 
-    @Shadow public PlayerControllerMP playerController;
+    @Shadow
+    public PlayerControllerMP playerController;
 
-    @Shadow private int rightClickDelayTimer;
+    @Shadow
+    private int rightClickDelayTimer;
 
-    @Shadow @Final public Profiler mcProfiler;
+    @Shadow
+    @Final
+    public Profiler mcProfiler;
 
-    @Shadow public StatFileWriter statFileWriter;
+    @Shadow
+    public StatFileWriter statFileWriter;
 
-    @Shadow public volatile boolean isGamePaused;
+    @Shadow
+    public volatile boolean isGamePaused;
 
-    @Shadow public GuiIngame ingameGUI;
+    @Shadow
+    public GuiIngame ingameGUI;
 
-    @Shadow public EntityRenderer entityRenderer;
+    @Shadow
+    public EntityRenderer entityRenderer;
 
-    @Shadow public WorldClient theWorld;
+    @Shadow
+    public WorldClient theWorld;
 
-    @Shadow public RenderEngine renderEngine;
+    @Shadow
+    public RenderEngine renderEngine;
 
-    @Shadow public GuiScreen currentScreen;
+    @Shadow
+    public GuiScreen currentScreen;
 
-    @Shadow public EntityClientPlayerMP thePlayer;
+    @Shadow
+    public EntityClientPlayerMP thePlayer;
 
-    @Shadow public abstract void displayGuiScreen(GuiScreen par1GuiScreen);
+    @Shadow
+    public abstract void displayGuiScreen(GuiScreen par1GuiScreen);
 
-    @Shadow private int leftClickCounter;
+    @Shadow
+    private int leftClickCounter;
 
-    @Shadow @Final public static boolean isRunningOnMac;
+    @Shadow
+    @Final
+    public static boolean isRunningOnMac;
 
-    @Shadow long systemTime;
+    @Shadow
+    long systemTime;
 
-    @Shadow public GameSettings gameSettings;
+    @Shadow
+    public GameSettings gameSettings;
 
-    @Shadow public boolean inGameHasFocus;
+    @Shadow
+    public boolean inGameHasFocus;
 
-    @Shadow public abstract void setIngameFocus();
+    @Shadow
+    public abstract void setIngameFocus();
 
-    @Shadow private long field_83002_am;
+    @Shadow
+    private long field_83002_am;
 
-    @Shadow public abstract void toggleFullscreen();
+    @Shadow
+    public abstract void toggleFullscreen();
 
-    @Shadow public abstract void displayInGameMenu();
+    @Shadow
+    public abstract void displayInGameMenu();
 
-    @Shadow protected abstract void forceReload();
+    @Shadow
+    protected abstract void forceReload();
 
-    @Shadow public RenderGlobal renderGlobal;
+    @Shadow
+    public RenderGlobal renderGlobal;
 
-    @Shadow protected abstract void updateDebugProfilerName(int par1);
+    @Shadow
+    protected abstract void updateDebugProfilerName(int par1);
 
-    @Shadow protected abstract void clickMouse(int par1);
+    @Shadow
+    protected abstract void clickMouse(int par1);
 
-    @Shadow protected abstract void clickMiddleMouseButton();
+    @Shadow
+    protected abstract void clickMiddleMouseButton();
 
-    @Shadow protected abstract void sendClickBlockToController(int par1, boolean par2);
+    @Shadow
+    protected abstract void sendClickBlockToController(int par1, boolean par2);
 
-    @Shadow private int joinPlayerCounter;
+    @Shadow
+    private int joinPlayerCounter;
 
-    @Shadow public EffectRenderer effectRenderer;
+    @Shadow
+    public EffectRenderer effectRenderer;
 
-    @Shadow private INetworkManager myNetworkManager;
+    @Shadow
+    private INetworkManager myNetworkManager;
 
 
-    @Shadow public MovingObjectPosition objectMouseOver;
+    @Shadow
+    public MovingObjectPosition objectMouseOver;
 
-    @Shadow public abstract ILogAgent getLogAgent();
+    @Shadow
+    public abstract ILogAgent getLogAgent();
 
+    @Shadow
+    private static Minecraft theMinecraft;
     private AutoClick playerControllerTool;
 
 
@@ -498,7 +536,6 @@ public abstract class MinecraftMixin {
 
         this.mcProfiler.endSection();
         this.systemTime = Minecraft.getSystemTime();
-
     }
 
 
@@ -507,5 +544,11 @@ public abstract class MinecraftMixin {
         if (par1 == 0 && par2 && this.playerControllerTool != null) {
             this.playerControllerTool.setLastAutoHarvestMs(System.currentTimeMillis());
         }
+    }
+
+    @Inject(method = "startGame", at = @At("RETURN"))
+    public void startGame(CallbackInfo info) throws LWJGLException {
+
+        KeyBindingRegistry.instance().uploadKeyBindingsToGame(Minecraft.getMinecraft().gameSettings);
     }
 }

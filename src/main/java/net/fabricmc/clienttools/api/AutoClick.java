@@ -1,4 +1,4 @@
-package net.fabricmc.clienttools;
+package net.fabricmc.clienttools.api;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPlayer;

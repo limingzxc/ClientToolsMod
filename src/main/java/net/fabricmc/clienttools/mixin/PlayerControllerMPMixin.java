@@ -1,7 +1,7 @@
 package net.fabricmc.clienttools.mixin;
 
 import btw.block.blocks.BedBlockBase;
-import net.fabricmc.clienttools.AutoClick;
+import net.fabricmc.clienttools.api.AutoClick;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
 import org.spongepowered.asm.mixin.Final;
@@ -18,7 +18,8 @@ public abstract class PlayerControllerMPMixin implements AutoClick
     private int auto_harvest_block_metadata;
     public boolean cancel_auto_harvest_on_next_click;
     public long last_auto_harvest_ms;
-    private static final Block[] blocks_for_which_metadata_must_match_for_automatic_harvest_mode = new Block[]{ Block.tallGrass };
+    private static final Block[] blocks_for_which_metadata_must_match_for_automatic_harvest_mode
+            = new Block[]{ Block.tallGrass };
 
     @Shadow public abstract void resetBlockRemoving();
 
@@ -66,7 +67,8 @@ public abstract class PlayerControllerMPMixin implements AutoClick
             return false;
         }
         Block block = Block.blocksList[this.mc.theWorld.getBlockId(x, y, z)];
-        if (!(this.auto_harvest_block != Block.dirt && this.auto_harvest_block != Block.grass || block != Block.dirt && block != Block.grass)) {
+        if (!(this.auto_harvest_block != Block.dirt && this.auto_harvest_block != Block.grass || block != Block.dirt
+                && block != Block.grass)) {
             return true;
         }
         if (this.auto_harvest_block == Block.oreRedstoneGlowing && block == Block.oreRedstone) {
@@ -98,7 +100,8 @@ public abstract class PlayerControllerMPMixin implements AutoClick
         if(playerLocation == null) {
             return false;
         }
-        return Block.blocksList[worldObj.getBlockId(playerLocation.posX, playerLocation.posY, playerLocation.posZ)] instanceof BedBlockBase;
+        return Block.blocksList[worldObj.getBlockId(playerLocation.posX, playerLocation.posY, playerLocation.posZ)]
+                instanceof BedBlockBase;
     }
 
     @Override
