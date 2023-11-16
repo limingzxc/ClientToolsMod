@@ -58,7 +58,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: "**.zip")
 
     implementation files("libs/pinin-1.6.0-all.jar")
-    include files("libs/pinin-1.6.0-all.jar")
+    implementation files("libs/craft-guide-3.0.1.jar")
 
     compileOnly fileTree(dir: "$projectDir/BTW_dev", include: "*.zip")
     compileOnly fileTree(dir: "$buildDir/BTW_dev", include: "**.jar")
@@ -128,6 +128,7 @@ task devPackRun(type:Jar) {
 jar {
     from sourceSets.main.output.resourcesDir
     from sourceSets.main.output.classesDirs
+    from fileTree("$projectDir/extras/")
     from("LICENSE") {
         rename { "${it}_${project.archivesBaseName}"}
     }

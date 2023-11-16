@@ -9,7 +9,8 @@
     "GuiIngameMixin",
     "MinecraftMixin",
     "PlayerControllerMPMixin",
-    "GuiContainerCreativeMixin"
+    "GuiContainerCreativeMixin",
+    "CraftGuideMixin"
   ],
   "injectors": {
     "defaultRequire": 1

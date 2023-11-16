@@ -6,7 +6,7 @@ import btw.BTWAddon;
 public class ClientToolsAddon extends BTWAddon {
 
     private ClientToolsAddon() {
-        super("Client Tools", "1.0.0", "Ex");
+        super("Client Tools", "1.1.0", "Ex");
     }
 
     @Override
