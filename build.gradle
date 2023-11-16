@@ -56,6 +56,10 @@ dependencies {
     implementation "org.lwjgl.lwjgl:lwjgl-platform:${lwjglVersion}"
 
     implementation fileTree(dir: "libs", include: "**.zip")
+
+    implementation files("libs/pinin-1.6.0-all.jar")
+    include files("libs/pinin-1.6.0-all.jar")
+
     compileOnly fileTree(dir: "$projectDir/BTW_dev", include: "*.zip")
     compileOnly fileTree(dir: "$buildDir/BTW_dev", include: "**.jar")
 

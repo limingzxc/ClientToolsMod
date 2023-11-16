@@ -4,13 +4,12 @@
   "package": "net.fabricmc.clienttools.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "OvenTileEntityMixin"
   ],
   "client": [
-    "GuiScreenMixin",
+    "GuiIngameMixin",
     "MinecraftMixin",
     "PlayerControllerMPMixin",
-    "GuiAchievementMixin"
+    "GuiContainerCreativeMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,7 +1,6 @@
 package net.fabricmc.clienttools.mixin;
 
 import net.fabricmc.clienttools.api.AutoClick;
-import net.fabricmc.clienttools.lib.KeyBindingRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.*;
 import org.lwjgl.LWJGLException;
@@ -109,7 +108,6 @@ public abstract class MinecraftMixin {
 
     @Shadow
     private INetworkManager myNetworkManager;
-
 
     @Shadow
     public MovingObjectPosition objectMouseOver;
@@ -544,11 +542,5 @@ public abstract class MinecraftMixin {
         if (par1 == 0 && par2 && this.playerControllerTool != null) {
             this.playerControllerTool.setLastAutoHarvestMs(System.currentTimeMillis());
         }
-    }
-
-    @Inject(method = "startGame", at = @At("RETURN"))
-    public void startGame(CallbackInfo info) throws LWJGLException {
-
-        KeyBindingRegistry.instance().uploadKeyBindingsToGame(Minecraft.getMinecraft().gameSettings);
     }
 }
